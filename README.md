@@ -5,6 +5,7 @@ The 1st place solution of [OpenPack Challenge 2022](https://open-pack.github.io/
 
 - src/train.py
 - src/utils/model.py
+    - We used `class myConvTransformerAVECplusLSTM` for the submission.
 - src/ensemble_mean.py
 
 ## How to reproduce submission results
