@@ -1,9 +1,3 @@
-test
-
-
-optk-download -d ./data
-
-
 # OpenPack-Challenge-1st
 The 1st place solution of [OpenPack Challenge 2022](https://open-pack.github.io/challenge2022).
 
