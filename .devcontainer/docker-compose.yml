@@ -9,9 +9,7 @@ services:
 
     network_mode: "host"
     volumes:
-      - $HOME/openpack_model/:/workspace
-      - $HOME/share_cvlab/openpack/:/workspace/data
-      # - $HOME/share_cvlab/openpack_logs/:/workspace/logs 遅くなる
+      - ../:/workspace
     working_dir: /workspace
     shm_size: 256gb
     stdin_open: true
@@ -24,7 +22,7 @@ services:
       resources:
         reservations:
           devices:
-            - device_ids: ['1' ]
+            - device_ids: ['0']
               capabilities: [ gpu ]
 
 # for orange

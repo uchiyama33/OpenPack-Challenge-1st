@@ -12,7 +12,6 @@ RUN apt -y update
 ##
 RUN apt -y install curl wget vim
 # RUN apt -y install python3.9
-RUN apt -y install ffmpeg
 RUN echo "alias python=python3.8" >> ~/.bashrc
 RUN echo "alias python3=python3.8" >> ~/.bashrc
 RUN source ~/.bashrc
@@ -32,24 +31,12 @@ RUN pip3 install Pillow scikit-learn scikit-image
 RUN pip3 install tqdm pandas
 RUN pip3 install black flake8 prospector mypy bandit vulture dodgy
 RUN pip3 install torch==1.10.0+cu113 torchvision==0.11.1+cu113 torchaudio==0.10.0+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html
-RUN pip3 install torchmetrics captum torchray
-RUN pip3 install cmapy ffmpeg-python h5py pyclustering openmim wandb
+RUN pip3 install torchmetrics
+RUN pip3 install cmapy h5py wandb
 RUN pip3 install kornia omegaconf einops vit_pytorch
 RUN pip3 install openpack-toolkit openpack-torch optuna pymysql hydra-optuna-sweeper
-RUN pip3 install 'git+https://github.com/katsura-jp/pytorch-cosine-annealing-with-warmup'
 RUN pip3 install --upgrade requests
-RUN pip3 install xgboost
-
-##
-RUN mkdir /root/resnet3d_installer
-COPY resnet3d_installer/* /root/resnet3d_installer/
-RUN chmod 764 /root/resnet3d_installer/get_resnet3d.sh
-RUN cd /root \
-    && ./resnet3d_installer/get_resnet3d.sh \
-    && cp -r resnet3d/resnet3d.egg-info /usr/local/lib/python3.8/dist-packages/ \
-    && cp -r resnet3d /usr/local/lib/python3.8/dist-packages/ \
-    && rm -r resnet3d \
-    && rm -r resnet3d_installer
+RUN pip3 install xgboost lightgbm
 
 RUN pip3 install 'git+https://github.com/sooftware/conformer'
 RUN pip3 install torchmetrics==0.10.2
