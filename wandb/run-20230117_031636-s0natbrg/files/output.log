@@ -1,0 +1,78 @@
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+/usr/local/lib/python3.8/dist-packages/torch/nn/init.py:388: UserWarning: Initializing zero-element tensors is a no-op
+  warnings.warn("Initializing zero-element tensors is a no-op")
+/usr/local/lib/python3.8/dist-packages/torch/nn/init.py:426: UserWarning: Initializing zero-element tensors is a no-op
+  warnings.warn("Initializing zero-element tensors is a no-op")
+[2023-01-17 03:16:41,547][__main__][INFO] - Start training for 200 epochs (k=0).
+2023-01-17 03:16:41 | INFO | __main__ | Start training for 200 epochs (k=0).
+Error executing job with overrides: []
+joblib.externals.loky.process_executor._RemoteTraceback:
+"""
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/joblib/externals/loky/process_executor.py", line 428, in _process_worker
+    r = call_item()
+  File "/usr/local/lib/python3.8/dist-packages/joblib/externals/loky/process_executor.py", line 275, in __call__
+    return self.fn(*self.args, **self.kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/joblib/_parallel_backends.py", line 620, in __call__
+    return self.func(*args, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/joblib/parallel.py", line 288, in __call__
+    return [func(*args, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/joblib/parallel.py", line 288, in <listcomp>
+    return [func(*args, **kwargs)
+  File "/workspace/src/utils/datasets.py", line 116, in _load_data
+    ts_sess_imu, x_sess_imu = optk.data.load_imu(
+  File "/usr/local/lib/python3.8/dist-packages/openpack_toolkit/data/dataloader.py", line 147, in load_imu
+    df = pd.read_csv(path)
+  File "/usr/local/lib/python3.8/dist-packages/pandas/util/_decorators.py", line 211, in wrapper
+    return func(*args, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/pandas/util/_decorators.py", line 331, in wrapper
+    return func(*args, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/pandas/io/parsers/readers.py", line 950, in read_csv
+    return _read(filepath_or_buffer, kwds)
+  File "/usr/local/lib/python3.8/dist-packages/pandas/io/parsers/readers.py", line 605, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+  File "/usr/local/lib/python3.8/dist-packages/pandas/io/parsers/readers.py", line 1442, in __init__
+    self._engine = self._make_engine(f, self.engine)
+  File "/usr/local/lib/python3.8/dist-packages/pandas/io/parsers/readers.py", line 1735, in _make_engine
+    self.handles = get_handle(
+  File "/usr/local/lib/python3.8/dist-packages/pandas/io/common.py", line 856, in get_handle
+    handle = open(
+FileNotFoundError: [Errno 2] No such file or directory: '/workspace/data_local/v0.3.1/U0103/atr/atr01/S0100.csv'
+"""
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "/workspace/src/train.py", line 101, in main
+    trainer.fit(plmodel, datamodule)
+  File "/usr/local/lib/python3.8/dist-packages/pytorch_lightning/trainer/trainer.py", line 603, in fit
+    call._call_and_handle_interrupt(
+  File "/usr/local/lib/python3.8/dist-packages/pytorch_lightning/trainer/call.py", line 38, in _call_and_handle_interrupt
+    return trainer_fn(*args, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/pytorch_lightning/trainer/trainer.py", line 645, in _fit_impl
+    self._run(model, ckpt_path=self.ckpt_path)
+  File "/usr/local/lib/python3.8/dist-packages/pytorch_lightning/trainer/trainer.py", line 1037, in _run
+    self._call_setup_hook()  # allow user to setup lightning_module in accelerator environment
+  File "/usr/local/lib/python3.8/dist-packages/pytorch_lightning/trainer/trainer.py", line 1284, in _call_setup_hook
+    self._call_lightning_datamodule_hook("setup", stage=fn)
+  File "/usr/local/lib/python3.8/dist-packages/pytorch_lightning/trainer/trainer.py", line 1361, in _call_lightning_datamodule_hook
+    return fn(*args, **kwargs)
+  File "/workspace/src/utils/datamodule.py", line 175, in setup
+    self.op_train = self.dataset_class(self.cfg, split.train, **kwargs)
+  File "/workspace/src/utils/datasets.py", line 76, in __init__
+    self.load_dataset(cfg, user_session_list, submission=submission)
+  File "/workspace/src/utils/datasets.py", line 287, in load_dataset
+    data = Parallel(n_jobs=n_jobs)(
+  File "/usr/local/lib/python3.8/dist-packages/joblib/parallel.py", line 1098, in __call__
+    self.retrieve()
+  File "/usr/local/lib/python3.8/dist-packages/joblib/parallel.py", line 975, in retrieve
+    self._output.extend(job.get(timeout=self.timeout))
+  File "/usr/local/lib/python3.8/dist-packages/joblib/_parallel_backends.py", line 567, in wrap_future_result
+    return future.result(timeout=timeout)
+  File "/usr/lib/python3.8/concurrent/futures/_base.py", line 444, in result
+    return self.__get_result()
+  File "/usr/lib/python3.8/concurrent/futures/_base.py", line 389, in __get_result
+    raise self._exception
+FileNotFoundError: [Errno 2] No such file or directory: '/workspace/data_local/v0.3.1/U0103/atr/atr01/S0100.csv'
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.

@@ -1,0 +1,88 @@
+wandb_version: 1
+
+_wandb:
+  desc: null
+  value:
+    cli_version: 0.13.9
+    framework: lightning
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    m:
+    - 1: trainer/global_step
+      6:
+      - 3
+    - 1: lr-Adam
+      5: 1
+      6:
+      - 1
+    - 1: train_loss
+      5: 1
+      6:
+      - 1
+    - 1: train_acc
+      5: 1
+      6:
+      - 1
+    - 1: epoch
+      5: 1
+      6:
+      - 1
+    - 1: loss/val/fold-0
+      5: 1
+      6:
+      - 1
+    - 1: acc/val/fold-0
+      5: 1
+      6:
+      - 1
+    - 1: f1macro/val/fold-0
+      5: 1
+      6:
+      - 1
+    - 1: val_loss
+      5: 1
+      6:
+      - 1
+    - 1: val_acc
+      5: 1
+      6:
+      - 1
+    - 1: val_f1macro
+      5: 1
+      6:
+      - 1
+    - 1: loss/train/fold-0
+      5: 1
+      6:
+      - 1
+    - 1: acc/train/fold-0
+      5: 1
+      6:
+      - 1
+    python_version: 3.8.10
+    start_time: 1673925460.899876
+    t:
+      1:
+      - 1
+      - 5
+      - 9
+      - 41
+      - 50
+      - 53
+      - 55
+      2:
+      - 1
+      - 5
+      - 9
+      - 41
+      - 50
+      - 53
+      - 55
+      3:
+      - 7
+      - 13
+      - 23
+      4: 3.8.10
+      5: 0.13.9
+      8:
+      - 5

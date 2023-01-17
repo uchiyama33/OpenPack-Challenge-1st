@@ -2,16 +2,12 @@
 import logging
 import multiprocessing
 import os
-import shutil
-from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
 
 import hydra
 import numpy as np
 import openpack_toolkit as optk
 import openpack_torch as optorch
-import pandas as pd
 import pytorch_lightning as pl
 import torch
 from hydra.core.config_store import ConfigStore
@@ -19,12 +15,9 @@ from omegaconf import DictConfig, OmegaConf
 from openpack_toolkit import OPENPACK_OPERATIONS
 from pytorch_lightning.callbacks import LearningRateMonitor
 from pytorch_lightning.loggers import WandbLogger
-from torch.utils.data import DataLoader
-from tqdm import tqdm
 
 from utils import splits_5_fold_new
 from utils.datamodule import OpenPackAllDataModule
-from utils.datasets import OpenPackAll
 from utils.lightning_module import TransformerPL
 from utils.splits_all import OPENPACK_CHALLENGE_ALL_SPLIT_DEBUG
 

@@ -1,0 +1,295 @@
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+/usr/local/lib/python3.8/dist-packages/torch/nn/init.py:388: UserWarning: Initializing zero-element tensors is a no-op
+  warnings.warn("Initializing zero-element tensors is a no-op")
+/usr/local/lib/python3.8/dist-packages/torch/nn/init.py:426: UserWarning: Initializing zero-element tensors is a no-op
+  warnings.warn("Initializing zero-element tensors is a no-op")
+2023-01-17 03:17:46 | INFO | __main__ | Start training for 200 epochs (k=0).
+[2023-01-17 03:17:46,002][__main__][INFO] - Start training for 200 epochs (k=0).
+2023-01-17 03:18:04 | INFO | utils.datamodule | dataset[train]: OpenPackImu(num_sequence=45, submission=False)
+2023-01-17 03:18:04 | INFO | utils.datamodule | dataset[val]: OpenPackImu(num_sequence=10, submission=False)
+2023-01-17 03:18:04 | INFO | utils.datamodule | dataset[test]: None
+2023-01-17 03:18:04 | INFO | utils.datamodule | dataset[submission]: None
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+  | Name              | Type                          | Params
+--------------------------------------------------------------------
+0 | net               | myConvTransformerAVECplusLSTM | 231 M
+1 | criterion_test    | CrossEntropyLoss              | 0
+2 | criterion_w_kappa | OpWeightedKappaLoss           | 0
+3 | criterion         | CrossEntropyLoss              | 0
+--------------------------------------------------------------------
+231 M     Trainable params
+0         Non-trainable params
+231 M     Total params
+926.199   Total estimated model params size (MB)
+/usr/local/lib/python3.8/dist-packages/pytorch_lightning/utilities/data.py:135: UserWarning: Your `IterableDataset` has `__len__` defined. In combination with multi-process data loading (when num_workers > 1), `__len__` could be inaccurate if each worker is not configured independently to avoid having duplicate data.
+  rank_zero_warn(
+/usr/local/lib/python3.8/dist-packages/lightning_lite/utilities/data.py:63: UserWarning: Your `IterableDataset` has `__len__` defined. In combination with multi-process data loading (when num_workers > 1), `__len__` could be inaccurate if each worker is not configured independently to avoid having duplicate data.
+  rank_zero_warn(
+[2023-01-17 03:18:04,422][utils.datamodule][INFO] - dataset[train]: OpenPackImu(num_sequence=45, submission=False)
+[2023-01-17 03:18:04,422][utils.datamodule][INFO] - dataset[val]: OpenPackImu(num_sequence=10, submission=False)
+[2023-01-17 03:18:04,422][utils.datamodule][INFO] - dataset[test]: None
+[2023-01-17 03:18:04,422][utils.datamodule][INFO] - dataset[submission]: None
+Sanity Checking: 0it [00:00, ?it/s]
+Sanity Checking DataLoader 0: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:00<00:00,  7.68it/s][2023-01-17 03:18:05,977][utils.lightning_module][INFO] - Epoch[000] TRAIN: loss=-1.0000, acc=-1.0000 | VAL: loss= 2.3951, acc= 0.0605, f1macro= 0.0124
+
+
+
+
+
+
+
+
+
+
+Epoch 0:  81%|███████████████████████████████████████████████████████████████████████████████████████████████████████                        | 56/69 [00:25<00:05,  2.24it/s, loss=2.26, v_num=n2mk]
+
+Epoch 0: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 69/69 [00:27<00:00,  2.49it/s, loss=2.26, v_num=n2mk]
+
+
+
+
+
+
+
+
+
+
+
+Epoch 1:  81%|███████████████████████████████████████████████████████████████████████████████████████████████████████                        | 56/69 [00:26<00:06,  2.13it/s, loss=2.19, v_num=n2mk]
+
+Validation DataLoader 0:  69%|█████████████████████████████████████████████████████████████████████████████████████████████▍                                         | 9/13 [00:01<00:00,  8.62it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 2:  81%|███████████████████████████████████████████████████████████████████████████████████████████████████████                        | 56/69 [00:25<00:05,  2.23it/s, loss=2.04, v_num=n2mk]
+
+Epoch 2: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 69/69 [00:27<00:00,  2.49it/s, loss=2.04, v_num=n2mk]
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 3:  90%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████             | 62/69 [00:28<00:03,  2.19it/s, loss=1.85, v_num=n2mk]
+Validation DataLoader 0:  46%|██████████████████████████████████████████████████████████████▎                                                                        | 6/13 [00:00<00:00,  8.62it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 4:  87%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████▍                | 60/69 [00:27<00:04,  2.21it/s, loss=1.56, v_num=n2mk]
+Validation DataLoader 0:  31%|█████████████████████████████████████████▌                                                                                             | 4/13 [00:00<00:01,  8.65it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 5:  90%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████             | 62/69 [00:27<00:03,  2.27it/s, loss=1.39, v_num=n2mk]
+Validation DataLoader 0:  46%|██████████████████████████████████████████████████████████████▎                                                                        | 6/13 [00:00<00:00,  8.63it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 6:  81%|███████████████████████████████████████████████████████████████████████████████████████████████████████                        | 56/69 [00:26<00:06,  2.11it/s, loss=1.17, v_num=n2mk]
+Validation: 0it [00:00, ?it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 7:  84%|█████████████████████████████████████████████████████████████████████████████████████████████████████████▉                    | 58/69 [00:26<00:05,  2.16it/s, loss=0.963, v_num=n2mk]
+Validation DataLoader 0:  15%|████████████████████▊                                                                                                                  | 2/13 [00:00<00:01,  8.59it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 8:  81%|██████████████████████████████████████████████████████████████████████████████████████████████████████▎                       | 56/69 [00:25<00:05,  2.17it/s, loss=0.794, v_num=n2mk]
+Validation DataLoader 0:   0%|                                                                                                                                               | 0/13 [00:00<?, ?it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 9:  81%|██████████████████████████████████████████████████████████████████████████████████████████████████████▎                       | 56/69 [00:25<00:05,  2.21it/s, loss=0.604, v_num=n2mk]
+Validation: 0it [00:00, ?it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 10:  81%|██████████████████████████████████████████████████████████████████████████████████████████████████████▎                       | 56/69 [00:25<00:05,  2.21it/s, loss=0.55, v_num=n2mk]
+Validation: 0it [00:00, ?it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 11:  81%|█████████████████████████████████████████████████████████████████████████████████████████████████████▍                       | 56/69 [00:25<00:05,  2.21it/s, loss=0.441, v_num=n2mk]
+Validation: 0it [00:00, ?it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 12:  83%|███████████████████████████████████████████████████████████████████████████████████████████████████████▎                     | 57/69 [00:26<00:05,  2.13it/s, loss=0.355, v_num=n2mk]
+Validation DataLoader 0:   8%|██████████▍                                                                                                                            | 1/13 [00:00<00:01,  8.63it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 13:  84%|█████████████████████████████████████████████████████████████████████████████████████████████████████████                    | 58/69 [00:26<00:05,  2.15it/s, loss=0.305, v_num=n2mk]
+Validation DataLoader 0:  15%|████████████████████▊                                                                                                                  | 2/13 [00:00<00:01,  8.62it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 14:  86%|██████████████████████████████████████████████████████████████████████████████████████████████████████████▉                  | 59/69 [00:26<00:04,  2.19it/s, loss=0.285, v_num=n2mk]
+Validation DataLoader 0:  23%|███████████████████████████████▏                                                                                                       | 3/13 [00:00<00:01,  8.61it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 15:  81%|██████████████████████████████████████████████████████████████████████████████████████████████████████▎                       | 56/69 [00:25<00:05,  2.19it/s, loss=0.25, v_num=n2mk]
+Validation: 0it [00:00, ?it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 16:  81%|██████████████████████████████████████████████████████████████████████████████████████████████████████▎                       | 56/69 [00:25<00:05,  2.22it/s, loss=0.25, v_num=n2mk]
+Validation DataLoader 0:   0%|                                                                                                                                               | 0/13 [00:00<?, ?it/s]
+
+
+
+
+
+
+
+
+
+
+

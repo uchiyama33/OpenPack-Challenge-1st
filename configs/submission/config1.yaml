@@ -489,7 +489,7 @@ dataset:
       name: 'Null'
       is_ignore: true
   name: all
-datarootdir: /workspace/data_local/
+datarootdir: "/workspace/data/openpack/"
 issue: ${model.name}-seed${seed}-d${model.depth}-h${model.heads}-np${model.num_patches}-pe${model.use_pe}-timestep${model.time_step_width}-bs${train.batch_size}-lr${train.optimizer.lr}-labelsm${train.label_smoothing}-mixup${train.dataaug.mixup_alpha}_${train.dataaug.mixup_p}-shuffle${train.dataaug.shuffle_alpha}_${train.dataaug.shuffle_p}-w_kappa_loss${loss.w_kappa_loss}-imu${model.imu_dim}_keypoint${model.keypoint_dim}-ht${model.ht_dim}_printer${model.printer_dim}
 wandb:
   project: openpack_newSplits

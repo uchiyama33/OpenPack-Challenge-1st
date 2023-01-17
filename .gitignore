@@ -8,3 +8,4 @@ _logs/
 *.pth
 *.pt
 lightning_logs/
+outputs/
