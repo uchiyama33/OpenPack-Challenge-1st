@@ -1,7 +1,6 @@
 version: "3.9"
 services:
   app:
-    # image: tomoon/pytorch_video:latest
     build: .
 
     container_name: openpack
@@ -24,8 +23,3 @@ services:
           devices:
             - device_ids: ['0']
               capabilities: [ gpu ]
-
-# for orange
-# docker run -itd --rm --name video_saliency_map --shm-size=64gb --mount type=bind,source=/mnt/data/uchiyama,target=/workspace/dataset --mount type=bind,source=$HOME/research/video_saliency_map/,target=/workspace/ --mount type=bind,source=/mnt/data/uchiyama/video_saliency_results,target=/workspace/results --gpus 2 tomoon/pytorch_video:py38
-# for cair
-# docker run  -itd --rm --name video_saliency_map --shm-size=64gb --mount type=bind,source=/home/cvlab/uchiyama/share_cvlab,target=/workspace/dataset --mount type=bind,source=$HOME/research/video_saliency_map/,target=/workspace/ --mount type=bind,source=/home/cvlab/uchiyama/share_cvlab/video_saliency_results,target=/workspace/results --gpus  tomoon/pytorch_video:latest

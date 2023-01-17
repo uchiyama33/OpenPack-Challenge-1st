@@ -9,3 +9,4 @@ _logs/
 *.pt
 lightning_logs/
 outputs/
+wandb
