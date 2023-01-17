@@ -1,0 +1,149 @@
+defaults:
+  - dataset: all
+  - override hydra/hydra_logging: none
+  - override hydra/job_logging: none
+  - _self_
+datarootdir: "/workspace/data/openpack/"
+issue: "${model.name}-seed${seed}-d${model.depth}-h${model.heads}-np${model.num_patches}-pe${model.use_pe}-\
+timestep${model.time_step_width}-\
+  bs${train.batch_size}-lr${train.optimizer.lr}-\
+  labelsm${train.label_smoothing}-\
+  mixup${train.dataaug.mixup_alpha}_${train.dataaug.mixup_p}-\
+  shuffle${train.dataaug.shuffle_alpha}_${train.dataaug.shuffle_p}-\
+  w_kappa_loss${loss.w_kappa_loss}-\
+  imu${model.imu_dim}_keypoint${model.keypoint_dim}-\
+  ht${model.ht_dim}_printer${model.printer_dim}\
+  "
+
+hydra:
+  run:
+    dir: ${path.logdir.rootdir}
+  job:
+    chdir: true
+
+wandb:
+  project: openpack_newSplits
+debug: false
+mode: "test"
+seed: 69
+model:
+  name: "conv_transformer_avec_plusLSTM"  # transformer_avec_plusLSTM conformer_avec_plusLSTM
+
+  dim: -1
+  depth: 6
+  heads: 20
+  dim_head: 64
+  mlp_dim: 2048
+  emb_dropout: 0.2
+  dropout: 0.2
+  use_pe: true
+  embedding_method: "linear"
+  
+  imu_dim: 300
+  keypoint_dim: 300 # st_gcnを使うなら 4の倍数
+  e4acc_dim: 0
+  bbox_dim: 200
+  ht_dim: 30
+  printer_dim: 30
+  kinect_depth_dim: 0 # -1でresnet layer に自動調整　基本設定（データ拡張などなし）のCVではあってもなくても変わらない
+  rs02_depth_dim: 0 # 0に設定すればロードしない　単体使用で識別できない（少なくともfold0は）
+  resnet1d: false # fold0,4以外では悪化する
+  st_gcn: false
+  resnet: true # 画像使うなら必須
+  resnet_cifar: false
+  mbconv: false   # only imageしたらresnetに比べてメモリ使用量かなり大きい
+  num_patches: 50
+  time_step_width: 1000 # 500,1000,2000ではわずかに1000が良かったが、大して差はない。数字が大きいほど学習が早くなる。1000で問題ないか 最小1000/7=142
+  use_substitute_image: false  # 使うのは良くなさそう、悪くなりがち
+  use_substitute_emb: false  # [要CV] only imageでは効果なし　単体で効果はなし
+  use_only_one_image: false
+  use_pretrained_resnet: true # 現在未使用
+  add_defect_info: false # [要CV] only imageでは効果なし CNN特徴では効果なし（前は効果あり
+  use_mean_image: true # CNN特徴では効果なし resnet使う場合は意味ありそう？（使わないと0が入力されてbnが狂う？）
+  use_cnn_feature: false
+  image_size: 64   # 64で十分そう？（only kinect_depth_dim: 500, resnet: n_layers: 3の場合、112と64変わらない）
+
+dataload:
+  pre_image: false
+  all_image_path: 
+    dir: "${path.openpack.rootdir}/${user.name}/kinect/depth/frames_resize224/${session}"
+    fname: "all_images_size${model.image_size}.npy"
+
+resnet1d:
+  n_layers: 2
+  type: "vit" 
+st_gcn:
+  Ks: 3
+  Kt: 3
+  type: "ori"
+resnet:
+  n_layers: 2
+  type: "vit"  # 効果絶大！安定する
+resnet_cifar:
+  n_blocks: 1
+mbconv:
+  n_layers: 2
+  type: "gn"  # original gn vit  (gn >= vit > ori)
+
+loss:
+  w_kappa_loss: 0 # 0で使わない　TODO mixupと併用する場合、w_kappa_lossもmixupする, w_kappa単体でテスト
+  w_kappa_loss_weightage: "linear" # "linear" or "quadratic"
+  ib_loss: 0
+  focal_loss_gamma: 0 # gamma　0で使わない  gamma 1,2では効果なし
+
+train:
+  num_workers: -1
+  batch_size: 32
+  epochs: 200
+  grad_clip_norm: 1.0 # bsが小さいときに有効か？ loss valがブレにくくなる
+  label_smoothing: 0
+  ignore_index: true
+  inner_loss: 0.5
+  optimizer:
+    decrease_lr: false #安定化の効果は無さそう、学習遅くなる
+    type: "Adam" # Adam RAdam AdamW
+    lr: 0.0001
+    weight_decay: 0.0001
+    lr_scheduler: "ori_warmup" # cosine multi_step ori_warmup  ori_warmupはlr下がるの遅いかも
+    warmup_step: 50
+    cosine_step: 40
+    multistep_gamma: 0.5  # TODO 0.5がいい？
+    multistep_milestones: 
+      - 50
+      - 100
+      - 150
+  dataaug:
+    #TODO update mixup x_keys
+    mixup_alpha: 0.8  # 0に近いほど0,1に近い値の確率が高く、1に近いほど一様分布に
+    mixup_p: 0.5  # 0で使わない
+    shuffle_alpha: 0.2  # シャッフルさせるパッチの固まりの割合
+    shuffle_p: 0 # 0で使わない
+    cutout_p: 0 # 0で使わない 0.2ではちょっとだけ効果あり？ emb_dropoutを大きくすればよいのでは？
+  debug:
+    batch_size: 64
+    epochs: 5
+
+twostep_pretrain:
+  use: false
+  pretrain_epoch: 50
+
+pre_data_aug: # 5,5,0.5 は効果確認できず(kinectあり)
+  use: false
+  rotate: 2 # degree
+  shift: 2 # image pixel
+  flip_p: 0 # 0.5でのCVは悪化した
+cnn_feature:
+  issue: "R3D50-kinect-width${model.time_step_width}-pretrainTrue"
+
+path:
+  openpack:
+    version: v0.3.1
+    rootdir: ${datarootdir}/${.version}
+  logdir:
+    rootdir: /workspace/logs/${dataset.name}/${model.name}/${issue}
+    model: ${path.logdir.rootdir}/model.pth
+    predict: ${path.logdir.rootdir}/pred/{user}-{session}
+    summary:
+      test: ${path.logdir.rootdir}/summary.csv
+      submission: ${path.logdir.rootdir}/summary_submission.csv
+

@@ -25,7 +25,7 @@ logger = logging.getLogger(__name__)
 optorch.configs.register_configs()
 
 
-@hydra.main(version_base=None, config_name="config1", config_path="../configs/submission")
+@hydra.main(version_base=None, config_name="config1", config_path="../configs")
 def main(cfg: DictConfig) -> None:
     _ = optk.utils.notebook.setup_root_logger()
 

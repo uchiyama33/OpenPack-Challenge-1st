@@ -25,9 +25,9 @@ wandb:
   project: openpack_newSplits
 debug: false
 mode: "test"
-seed: 172
+seed: 67
 model:
-  name: "conv_transformer_avec"  # transformer_avec_plusLSTM conformer_avec_plusLSTM
+  name: "conv_transformer_avec_plusLSTM"  # transformer_avec_plusLSTM conformer_avec_plusLSTM
 
   dim: -1
   depth: 6
@@ -115,7 +115,7 @@ train:
   dataaug:
     #TODO update mixup x_keys
     mixup_alpha: 0.8  # 0に近いほど0,1に近い値の確率が高く、1に近いほど一様分布に
-    mixup_p: 0  # 0で使わない
+    mixup_p: 0.5  # 0で使わない
     shuffle_alpha: 0.2  # シャッフルさせるパッチの固まりの割合
     shuffle_p: 0.8 # 0で使わない
     cutout_p: 0 # 0で使わない 0.2ではちょっとだけ効果あり？ emb_dropoutを大きくすればよいのでは？
