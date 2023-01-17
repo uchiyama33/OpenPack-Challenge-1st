@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  app:
+    # image: tomoon/pytorch_video:latest
+    build: .
+
+    container_name: openpack
+    hostname: openpack
+
+    network_mode: "host"
+    volumes:
+      - $HOME/openpack_model/:/workspace
+      - $HOME/share_cvlab/openpack/:/workspace/data
+      # - $HOME/share_cvlab/openpack_logs/:/workspace/logs 遅くなる
+    working_dir: /workspace
+    shm_size: 256gb
+    stdin_open: true
+    tty: true
+    environment:
+      - DISPLAY
+      - QT_X11_NO_MITSHM=1
+      - NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - device_ids: ['1' ]
+              capabilities: [ gpu ]
+
+# for orange
+# docker run -itd --rm --name video_saliency_map --shm-size=64gb --mount type=bind,source=/mnt/data/uchiyama,target=/workspace/dataset --mount type=bind,source=$HOME/research/video_saliency_map/,target=/workspace/ --mount type=bind,source=/mnt/data/uchiyama/video_saliency_results,target=/workspace/results --gpus 2 tomoon/pytorch_video:py38
+# for cair
+# docker run  -itd --rm --name video_saliency_map --shm-size=64gb --mount type=bind,source=/home/cvlab/uchiyama/share_cvlab,target=/workspace/dataset --mount type=bind,source=$HOME/research/video_saliency_map/,target=/workspace/ --mount type=bind,source=/home/cvlab/uchiyama/share_cvlab/video_saliency_results,target=/workspace/results --gpus  tomoon/pytorch_video:latest
