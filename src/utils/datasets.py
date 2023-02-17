@@ -136,68 +136,68 @@ class OpenPackAll(torch.utils.data.IterableDataset):  # FIXME torch.utils.data.C
             x_list.append(x_sess_keypoint)
             data_name.append("keypoint")
 
-            if cfg.model.kinect_depth_dim != 0:
-                if cfg.model.use_cnn_feature:
-                    # path_kinect_depth = Path(
-                    #     cfg.dataset.stream.path_kinect_feature.dir,
-                    #     cfg.dataset.stream.path_kinect_feature.fname,
-                    # )
-                    path_kinect_depth_all_unixtime = Path(
-                        cfg.dataset.stream.path_kinect_feature_all.dir,
-                        cfg.dataset.stream.path_kinect_feature_all.unixtime_fname,
-                    )
-                    path_kinect_depth_all_feat = Path(
-                        cfg.dataset.stream.path_kinect_feature_all.dir,
-                        cfg.dataset.stream.path_kinect_feature_all.feat_fname,
-                    )
-                    ts_sess_kinect_depth, x_sess_kinect_depth = load_feature_all(
-                        path_kinect_depth_all_unixtime, path_kinect_depth_all_feat
-                    )
-                    ts_list.append(ts_sess_kinect_depth)
-                    x_list.append(x_sess_kinect_depth)
-                    data_name.append("kinect_feature")
-                else:
-                    # kinect_depth
-                    path_kinect_depth = Path(
-                        cfg.dataset.stream.path_kinect_depth.dir,
-                        cfg.dataset.stream.path_kinect_depth.fname,
-                    )
-                    ts_sess_kinect_depth, x_sess_kinect_depth = load_depth(path_kinect_depth)
-                    if cfg.dataload.pre_image:
-                        all_image_path = Path(
-                            cfg.dataload.all_image_path.dir,
-                            cfg.dataload.all_image_path.fname,
-                        )
-                        x_sess_kinect_depth = pre_load_image(
-                            x_sess_kinect_depth,
-                            all_image_path,
-                            cfg.model.image_size,
-                            min_value=cfg.dataset.stream.min_value_kinect_depth,
-                            max_value=cfg.dataset.stream.max_value_kinect_depth,
-                        )
-                    ts_list.append(ts_sess_kinect_depth)
-                    x_list.append(x_sess_kinect_depth)
-                    data_name.append("kinect_depth")
+            # if cfg.model.kinect_depth_dim != 0:
+            #     if cfg.model.use_cnn_feature:
+            #         # path_kinect_depth = Path(
+            #         #     cfg.dataset.stream.path_kinect_feature.dir,
+            #         #     cfg.dataset.stream.path_kinect_feature.fname,
+            #         # )
+            #         path_kinect_depth_all_unixtime = Path(
+            #             cfg.dataset.stream.path_kinect_feature_all.dir,
+            #             cfg.dataset.stream.path_kinect_feature_all.unixtime_fname,
+            #         )
+            #         path_kinect_depth_all_feat = Path(
+            #             cfg.dataset.stream.path_kinect_feature_all.dir,
+            #             cfg.dataset.stream.path_kinect_feature_all.feat_fname,
+            #         )
+            #         ts_sess_kinect_depth, x_sess_kinect_depth = load_feature_all(
+            #             path_kinect_depth_all_unixtime, path_kinect_depth_all_feat
+            #         )
+            #         ts_list.append(ts_sess_kinect_depth)
+            #         x_list.append(x_sess_kinect_depth)
+            #         data_name.append("kinect_feature")
+            #     else:
+            #         # kinect_depth
+            #         path_kinect_depth = Path(
+            #             cfg.dataset.stream.path_kinect_depth.dir,
+            #             cfg.dataset.stream.path_kinect_depth.fname,
+            #         )
+            #         ts_sess_kinect_depth, x_sess_kinect_depth = load_depth(path_kinect_depth)
+            #         if cfg.dataload.pre_image:
+            #             all_image_path = Path(
+            #                 cfg.dataload.all_image_path.dir,
+            #                 cfg.dataload.all_image_path.fname,
+            #             )
+            #             x_sess_kinect_depth = pre_load_image(
+            #                 x_sess_kinect_depth,
+            #                 all_image_path,
+            #                 cfg.model.image_size,
+            #                 min_value=cfg.dataset.stream.min_value_kinect_depth,
+            #                 max_value=cfg.dataset.stream.max_value_kinect_depth,
+            #             )
+            #         ts_list.append(ts_sess_kinect_depth)
+            #         x_list.append(x_sess_kinect_depth)
+            #         data_name.append("kinect_depth")
 
-            else:
-                ts_list.append(None)
-                x_list.append(None)
-                data_name.append("kinect_depth")
+            # else:
+            #     ts_list.append(None)
+            #     x_list.append(None)
+            #     data_name.append("kinect_depth")
 
-            # rs02_depth
-            if cfg.model.rs02_depth_dim != 0:
-                path_rs02_depth = Path(
-                    cfg.dataset.stream.path_rs02_depth.dir,
-                    cfg.dataset.stream.path_rs02_depth.fname,
-                )
-                ts_sess_rs02_depth, x_sess_rs02_depth = load_depth(path_rs02_depth)
-                ts_list.append(ts_sess_rs02_depth)
-                x_list.append(x_sess_rs02_depth)
-                data_name.append("rs02_depth")
-            else:
-                ts_list.append(None)
-                x_list.append(None)
-                data_name.append("rs02_depth")
+            # # rs02_depth
+            # if cfg.model.rs02_depth_dim != 0:
+            #     path_rs02_depth = Path(
+            #         cfg.dataset.stream.path_rs02_depth.dir,
+            #         cfg.dataset.stream.path_rs02_depth.fname,
+            #     )
+            #     ts_sess_rs02_depth, x_sess_rs02_depth = load_depth(path_rs02_depth)
+            #     ts_list.append(ts_sess_rs02_depth)
+            #     x_list.append(x_sess_rs02_depth)
+            #     data_name.append("rs02_depth")
+            # else:
+            #     ts_list.append(None)
+            #     x_list.append(None)
+            #     data_name.append("rs02_depth")
 
             # e4acc
             if cfg.model.e4acc_dim != 0:
@@ -269,52 +269,37 @@ class OpenPackAll(torch.utils.data.IterableDataset):  # FIXME torch.utils.data.C
                 "keypoint": clip_x_list[1],
                 "imu_unixtime": clip_ts_list[0],
                 "keypoint_unixtime": clip_ts_list[1],
-                "kinect_depth": clip_x_list[2],
-                "rs02_depth": clip_x_list[3],
-                "kinect_depth_unixtime": clip_ts_list[2],
-                "rs02_depth_unixtime": clip_ts_list[3],
+                # "kinect_depth": clip_x_list[2],
+                # "rs02_depth": clip_x_list[3],
+                # "kinect_depth_unixtime": clip_ts_list[2],
+                # "rs02_depth_unixtime": clip_ts_list[3],
                 "label": label,
                 "label_unixtime": ts_sess,  # =ht_unixtime, printer_unixtime
                 "ht": x_sess_ht,
                 "printer": x_sess_printer,
-                "e4acc": clip_x_list[4],
-                "e4acc_unixtime": clip_ts_list[4],
-                "bbox": clip_x_list[5],
-                "bbox_unixtime": clip_ts_list[5],
+                "e4acc": clip_x_list[2],
+                "e4acc_unixtime": clip_ts_list[2],
+                "bbox": clip_x_list[3],
+                "bbox_unixtime": clip_ts_list[3],
             }
 
         n_jobs = 1 if cfg.debug == True else -1
         data = Parallel(n_jobs=n_jobs)(
             delayed(_load_data)(user, session) for seq_idx, (user, session) in enumerate(user_session_list)
         )
-        # debug
-        # data = []
-        # for seq_idx, (user, session) in enumerate(user_session_list):
-        #     data.append(_load_data(user, session))
 
-        if cfg.model.use_cnn_feature:
-            path_mean_image_kinect_feature = Path(
-                cfg.dataset.stream.path_mean_image_kinect_feature.dir,
-                cfg.dataset.stream.path_mean_image_kinect_feature.fname,
-            )
-            self.mean_feature = load_mean_feature(path_mean_image_kinect_feature)
-        if cfg.dataload.pre_image:
-            mean_path = Path(
-                cfg.dataset.stream.mean_image_kinect_depth.dir,
-                cfg.dataset.stream.mean_image_kinect_depth.fname,
-            )
-            self.mean_kinect_depth = load_mean_image(
-                mean_path,
-                cfg.model.image_size,
-                min_value=cfg.dataset.stream.min_value_kinect_depth,
-                max_value=cfg.dataset.stream.max_value_kinect_depth,
-            )
+        # if cfg.dataload.pre_image:
+        #     mean_path = Path(
+        #         cfg.dataset.stream.mean_image_kinect_depth.dir,
+        #         cfg.dataset.stream.mean_image_kinect_depth.fname,
+        #     )
+        #     self.mean_kinect_depth = load_mean_image(
+        #         mean_path,
+        #         cfg.model.image_size,
+        #         min_value=cfg.dataset.stream.min_value_kinect_depth,
+        #         max_value=cfg.dataset.stream.max_value_kinect_depth,
+        #     )
 
-        # num_max_clip = []
-        # for d in data:
-        #     num_max_clip.append(len(d["label"]) // self.clip_time + 1)
-
-        # self.num_max_clip = num_max_clip
         self.data = data
         self.cfg = cfg
 
@@ -586,53 +571,53 @@ class OpenPackAll(torch.utils.data.IterableDataset):  # FIXME torch.utils.data.C
             label, ts = self.segment_and_padding(data["label"], data["label_unixtime"], start_ts, end_ts, 1)
             label = np.array(label)[:, 0]
 
-            # kinect_depth
-            if self.cfg.model.kinect_depth_dim != 0:
-                if self.cfg.model.use_cnn_feature:
-                    kinect_depth, exist_data_kinect_depth = self.segment_and_padding_for_feature(
-                        data["kinect_depth"],
-                        data["kinect_depth_unixtime"],
-                        start_ts,
-                        end_ts,
-                        self.cfg.dataset.stream.frame_rate_kinect_feature,
-                        label_ts=ts,
-                    )
-                else:
-                    kinect_depth, _, exist_data_kinect_depth = self.segment_and_padding(
-                        data["kinect_depth"],
-                        data["kinect_depth_unixtime"],
-                        start_ts,
-                        end_ts,
-                        self.cfg.dataset.stream.frame_rate_kinect_depth,
-                        c=1,
-                        resize=self.cfg.model.image_size,
-                        label_ts=ts,
-                    )
-            else:  # dummy
-                kinect_depth = np.zeros((self.clip_time, 1))
-                exist_data_kinect_depth = np.array([False] * self.clip_time)
+            # # kinect_depth
+            # if self.cfg.model.kinect_depth_dim != 0:
+            #     if self.cfg.model.use_cnn_feature:
+            #         kinect_depth, exist_data_kinect_depth = self.segment_and_padding_for_feature(
+            #             data["kinect_depth"],
+            #             data["kinect_depth_unixtime"],
+            #             start_ts,
+            #             end_ts,
+            #             self.cfg.dataset.stream.frame_rate_kinect_feature,
+            #             label_ts=ts,
+            #         )
+            #     else:
+            #         kinect_depth, _, exist_data_kinect_depth = self.segment_and_padding(
+            #             data["kinect_depth"],
+            #             data["kinect_depth_unixtime"],
+            #             start_ts,
+            #             end_ts,
+            #             self.cfg.dataset.stream.frame_rate_kinect_depth,
+            #             c=1,
+            #             resize=self.cfg.model.image_size,
+            #             label_ts=ts,
+            #         )
+            # else:  # dummy
+            #     kinect_depth = np.zeros((self.clip_time, 1))
+            #     exist_data_kinect_depth = np.array([False] * self.clip_time)
 
-            # rs02_depth
-            if self.cfg.model.rs02_depth_dim != 0:
-                rs02_depth, _, exist_data_rs02_depth = self.segment_and_padding(
-                    data["rs02_depth"],
-                    data["rs02_depth_unixtime"],
-                    start_ts,
-                    end_ts,
-                    self.cfg.dataset.stream.frame_rate_rs02_depth,
-                    c=3,
-                    resize=self.cfg.model.image_size,
-                    label_ts=ts,
-                )
-            else:  # dummy
-                rs02_depth = np.zeros((self.clip_time, 1))
-                exist_data_rs02_depth = np.array([False] * self.clip_time)
+            # # rs02_depth
+            # if self.cfg.model.rs02_depth_dim != 0:
+            #     rs02_depth, _, exist_data_rs02_depth = self.segment_and_padding(
+            #         data["rs02_depth"],
+            #         data["rs02_depth_unixtime"],
+            #         start_ts,
+            #         end_ts,
+            #         self.cfg.dataset.stream.frame_rate_rs02_depth,
+            #         c=3,
+            #         resize=self.cfg.model.image_size,
+            #         label_ts=ts,
+            #     )
+            # else:  # dummy
+            #     rs02_depth = np.zeros((self.clip_time, 1))
+            #     exist_data_rs02_depth = np.array([False] * self.clip_time)
 
-            if self.cfg.pre_data_aug.use and self.mode == "train":
-                imu, keypoint, e4acc, kinect_depth, rs02_depth = self.pre_data_aug(
-                    [imu, keypoint, e4acc, kinect_depth, rs02_depth],
-                    data_names=["imu", "keypoint", "e4acc", "kinect_depth", "rs02_depth"],
-                )
+            # if self.cfg.pre_data_aug.use and self.mode == "train":
+            #     imu, keypoint, e4acc, kinect_depth, rs02_depth = self.pre_data_aug(
+            #         [imu, keypoint, e4acc, kinect_depth, rs02_depth],
+            #         data_names=["imu", "keypoint", "e4acc", "kinect_depth", "rs02_depth"],
+            #     )
 
             # padding ts
             ts = np.concatenate(
@@ -655,10 +640,10 @@ class OpenPackAll(torch.utils.data.IterableDataset):  # FIXME torch.utils.data.C
                 "ts": ts,
                 "ht": ht,
                 "printer": printer,
-                "kinect_depth": kinect_depth,
-                "rs02_depth": rs02_depth,
-                "exist_data_kinect_depth": exist_data_kinect_depth,
-                "exist_data_rs02_depth": exist_data_rs02_depth,
+                # "kinect_depth": kinect_depth,
+                # "rs02_depth": rs02_depth,
+                # "exist_data_kinect_depth": exist_data_kinect_depth,
+                # "exist_data_rs02_depth": exist_data_rs02_depth,
             }
             yield output
 

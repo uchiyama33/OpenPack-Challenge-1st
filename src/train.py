@@ -1,4 +1,3 @@
-#%%
 import logging
 import multiprocessing
 import os
@@ -36,7 +35,6 @@ def main(cfg: DictConfig) -> None:
 
     pl.seed_everything(cfg.seed)
 
-    #%%
     wandb_logger = WandbLogger(name=cfg.issue, project=cfg.wandb.project)
 
     if cfg.train.grad_clip_norm > 0:
@@ -44,7 +42,6 @@ def main(cfg: DictConfig) -> None:
     else:
         kwargs_grad_clip = {}
 
-    #%%
     device = torch.device("cuda")
     logdir = Path(cfg.path.logdir.rootdir)
     logger.debug(f"logdir = {logdir}")

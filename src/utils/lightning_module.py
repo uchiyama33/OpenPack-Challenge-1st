@@ -18,10 +18,6 @@ from torchmetrics.functional import f1_score
 
 from utils.loss import FocalLoss, OpWeightedKappaLoss
 from utils.model import (
-    myB2TConvTransformer,
-    myB2TConvTransformerAVEC,
-    myB2TConvTransformerAVECplusLSTM,
-    myB2TTransformer,
     myConformer,
     myConformerAVEC,
     myConformerAVECplusLSTM,
@@ -34,11 +30,6 @@ from utils.model import (
     myTransformerAVECplusLSTM,
     myTransformerPlusLSTM,
 )
-from utils.model_relative import myRelativeTransformer
-from utils.model_rpr import myRPRTransformer
-from utils.model_twostep import myTransformerTwoStep
-from utils.model_twotower import myTransformerTwoTower, myTransformerTwoTowerTwoStep
-
 logger = getLogger(__name__)
 
 
@@ -60,41 +51,6 @@ class TransformerPL(optorch.lightning.BaseLightningModule):
             )
         elif cfg.model.name == "conv_transformer":
             model = myConvTransformer(
-                num_classes=len(OPENPACK_OPERATIONS),
-                cfg=cfg,
-            )
-        elif cfg.model.name == "relative_transformer":
-            model = myRelativeTransformer(
-                num_classes=len(OPENPACK_OPERATIONS),
-                cfg=cfg,
-            )
-        elif cfg.model.name == "rpr_transformer":
-            model = myRPRTransformer(
-                num_classes=len(OPENPACK_OPERATIONS),
-                cfg=cfg,
-            )
-        elif cfg.model.name == "twostep_transformer":
-            model = myTransformerTwoStep(
-                num_classes=len(OPENPACK_OPERATIONS),
-                cfg=cfg,
-            )
-        # elif cfg.model.name == "twotower_transformer":
-        #     model = myTransformerTwoTower(
-        #         num_classes=len(OPENPACK_OPERATIONS),
-        #         cfg=cfg,
-        #     )
-        elif cfg.model.name == "twotowertwostep_transformer":
-            model = myTransformerTwoTowerTwoStep(
-                num_classes=len(OPENPACK_OPERATIONS),
-                cfg=cfg,
-            )
-        elif cfg.model.name == "b2t_transformer":
-            model = myB2TTransformer(
-                num_classes=len(OPENPACK_OPERATIONS),
-                cfg=cfg,
-            )
-        elif cfg.model.name == "b2tconv_transformer":
-            model = myB2TConvTransformer(
                 num_classes=len(OPENPACK_OPERATIONS),
                 cfg=cfg,
             )
@@ -125,16 +81,6 @@ class TransformerPL(optorch.lightning.BaseLightningModule):
             )
         elif cfg.model.name == "transformer_avec_plusLSTM":
             model = myTransformerAVECplusLSTM(
-                num_classes=len(OPENPACK_OPERATIONS),
-                cfg=cfg,
-            )
-        elif cfg.model.name == "b2tconv_transformer_avec":
-            model = myB2TConvTransformerAVEC(
-                num_classes=len(OPENPACK_OPERATIONS),
-                cfg=cfg,
-            )
-        elif cfg.model.name == "b2tconv_transformer_avec_plusLSTM":
-            model = myB2TConvTransformerAVECplusLSTM(
                 num_classes=len(OPENPACK_OPERATIONS),
                 cfg=cfg,
             )
@@ -197,11 +143,7 @@ class TransformerPL(optorch.lightning.BaseLightningModule):
             x_bbox,
             x_ht,
             x_printer,
-            x_kinect_depth,
-            x_rs02_depth,
             t,
-            exist_data_kinect_depth,
-            exist_data_rs02_depth,
         ) = self._split_data(batch)
 
         if self.cfg.twostep_pretrain.use and self.current_epoch < self.cfg.twostep_pretrain.pretrain_epoch:
@@ -212,10 +154,6 @@ class TransformerPL(optorch.lightning.BaseLightningModule):
                 x_bbox,
                 x_ht,
                 x_printer,
-                x_kinect_depth,
-                x_rs02_depth,
-                exist_data_kinect_depth,
-                exist_data_rs02_depth,
             )
             y_hat = torch.stack([y_imu, y_keypoint, y_kinect]).mean(0)
             loss = (
@@ -231,10 +169,6 @@ class TransformerPL(optorch.lightning.BaseLightningModule):
                 x_bbox,
                 x_ht,
                 x_printer,
-                x_kinect_depth,
-                x_rs02_depth,
-                exist_data_kinect_depth,
-                exist_data_rs02_depth,
             )
             if self.cfg.train.dataaug.mixup_p > 0:
                 label_b.to(device=self.device, dtype=torch.long)
@@ -265,11 +199,7 @@ class TransformerPL(optorch.lightning.BaseLightningModule):
                 x_bbox,
                 x_ht,
                 x_printer,
-                x_kinect_depth,
-                x_rs02_depth,
                 t,
-                exist_data_kinect_depth,
-                exist_data_rs02_depth,
             ) = self._split_data(batch)
             if (
                 self.cfg.twostep_pretrain.use
@@ -282,10 +212,6 @@ class TransformerPL(optorch.lightning.BaseLightningModule):
                     x_bbox,
                     x_ht,
                     x_printer,
-                    x_kinect_depth,
-                    x_rs02_depth,
-                    exist_data_kinect_depth,
-                    exist_data_rs02_depth,
                 )
                 y_hat = torch.stack([y_imu, y_keypoint, y_kinect]).mean(0)
                 loss = (
@@ -301,10 +227,6 @@ class TransformerPL(optorch.lightning.BaseLightningModule):
                     x_bbox,
                     x_ht,
                     x_printer,
-                    x_kinect_depth,
-                    x_rs02_depth,
-                    exist_data_kinect_depth,
-                    exist_data_rs02_depth,
                 )
                 loss = self.criterion_test(y_hat.flatten(0, 1), t.flatten(0, 1))
             # valではCEのみ
@@ -328,11 +250,7 @@ class TransformerPL(optorch.lightning.BaseLightningModule):
             x_bbox,
             x_ht,
             x_printer,
-            x_kinect_depth,
-            x_rs02_depth,
             t,
-            exist_data_kinect_depth,
-            exist_data_rs02_depth,
         ) = self._split_data(batch)
         ts_unix = batch["ts"]
 
@@ -343,10 +261,6 @@ class TransformerPL(optorch.lightning.BaseLightningModule):
             x_bbox,
             x_ht,
             x_printer,
-            x_kinect_depth,
-            x_rs02_depth,
-            exist_data_kinect_depth,
-            exist_data_rs02_depth,
         )
 
         outputs = dict(t=t, y=y_hat.transpose(1, 2), unixtime=ts_unix)
@@ -493,11 +407,7 @@ class TransformerPL(optorch.lightning.BaseLightningModule):
         x_bbox = batch["bbox"].to(device=self.device, dtype=torch.float)
         x_ht = batch["ht"].to(device=self.device, dtype=torch.int)
         x_printer = batch["printer"].to(device=self.device, dtype=torch.int)
-        x_kinect_depth = batch["kinect_depth"].to(device=self.device, dtype=torch.float)
-        x_rs02_depth = batch["rs02_depth"].to(device=self.device, dtype=torch.float)
         t = batch["label"].to(device=self.device, dtype=torch.long)
-        exist_data_kinect_depth = batch["exist_data_kinect_depth"].to(device=self.device)
-        exist_data_rs02_depth = batch["exist_data_rs02_depth"].to(device=self.device)
 
         return (
             x_imu,
@@ -506,11 +416,7 @@ class TransformerPL(optorch.lightning.BaseLightningModule):
             x_bbox,
             x_ht,
             x_printer,
-            x_kinect_depth,
-            x_rs02_depth,
             t,
-            exist_data_kinect_depth,
-            exist_data_rs02_depth,
         )
 
     def calc_f1macro(self, y: torch.Tensor, t: torch.Tensor) -> torch.Tensor:
